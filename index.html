@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Signage – IGMG Neu-Ulm</title>
+<title>Digital Signage – Osman Gazi Moschee Ulm</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,34 +20,30 @@
 </script>
 <style>
   :root { --accent:#009972; }
-  /* Hintergrund der gesamten Seite */
   body { 
     margin:0; padding:0; height:100vh; 
     background:#e7eae9; 
-    display: flex; align-items: center; justify-content: center; /* Zentrierung */
+    display: flex; align-items: center; justify-content: center;
     overflow:hidden; font-family:"Open Sans",sans-serif; 
   }
   
   .tnum { font-variant-numeric: tabular-nums; }
 
-  /* Der 1920x1080 Container */
   #stage {
-    position: relative; /* Von Absolute auf Relative für bessere Zentrierung */
+    position: relative;
     width: 1920px; height: 1080px;
     background: #ffffff;
     overflow: hidden;
     box-shadow: 0 40px 120px rgba(0,0,0,.35);
-    flex-shrink: 0; /* Verhindert das Zusammenquetschen */
+    flex-shrink: 0;
   }
 
   .pattern { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
   .card { background:#ffffff; border-radius:24px; box-shadow:0 8px 30px rgba(15,40,32,.06); }
 
-  /* Ticker Animation */
   .ticker-track { display:inline-block; white-space:nowrap; padding-left:100%; animation:ticker 45s linear infinite; }
   @keyframes ticker { 0% { transform:translateX(0); } 100% { transform:translateX(-100%); } }
 
-  /* Slideshow */
   .slide { position:absolute; inset:0; opacity:0; transition:opacity 1.2s ease-in-out; background-size:contain; background-repeat:no-repeat; background-position:center; background-color:#ffffff; }
   .slide.active { opacity:1; }
 
@@ -65,15 +61,14 @@
 
   <div class="relative z-10 h-full w-full grid p-10 gap-7" style="grid-template-columns: 500px 450px 1fr; grid-template-rows: 140px minmax(0,1fr) 88px;">
 
-    <!-- HEADER -->
     <header class="card col-span-3 flex items-center justify-between px-12">
       <div class="flex items-center gap-4 w-[420px]">
         <div class="flex items-center justify-center w-14 h-14 rounded-2xl" style="background:var(--accent)">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2C8 6 8 9 12 12c4-3 4-6 0-10z"/><path d="M5 22V12a7 7 0 0 1 14 0v10"/><path d="M3 22h18"/><path d="M12 22v-4"/></svg>
         </div>
         <div>
-          <div class="text-[34px] font-extrabold leading-none text-black">Neu-Ulm</div>
-          <div class="text-[15px] font-medium text-gray-500 tracking-[.25em] uppercase mt-1">IGMG · Hicret Camii</div>
+          <div class="text-[34px] font-extrabold leading-none text-black">Ulm</div>
+          <div class="text-[15px] font-medium text-gray-500 tracking-[.25em] uppercase mt-1">Osman Gazi Moschee</div>
         </div>
       </div>
       <div class="flex flex-col items-center">
@@ -87,7 +82,6 @@
       </div>
     </header>
 
-    <!-- GEBETSZEITEN LISTE -->
     <section class="flex flex-col gap-5 min-h-0">
       <div class="card flex-1 flex flex-col px-8 py-7 overflow-hidden">
         <div class="flex items-center justify-between mb-5">
@@ -95,8 +89,7 @@
           <span class="text-[14px] font-semibold text-gray-400" id="g-date-short">Wird geladen...</span>
         </div>
         <div id="prayer-list" class="flex flex-col justify-between flex-1 min-h-0">
-           <!-- Hier kommen die Zeiten rein -->
-        </div>
+           </div>
       </div>
       <div class="card bg-accent px-7 py-5 flex items-center justify-between text-white" style="background:linear-gradient(135deg,#009972,#007a5b);">
         <div class="flex items-center gap-4">
@@ -107,7 +100,6 @@
       </div>
     </section>
 
-    <!-- MITTE: NÄCHSTES GEBET -->
     <section>
       <div class="card h-full flex flex-col items-center justify-center text-center p-8 text-white relative overflow-hidden" style="background:linear-gradient(180deg,#00a47a,#007a5b);">
         <div class="relative z-10">
@@ -127,7 +119,6 @@
       </div>
     </section>
 
-    <!-- RECHTS: FLYER -->
     <section class="card relative overflow-hidden">
       <div id="slideshow" class="absolute inset-0"></div>
       <div class="absolute inset-x-0 bottom-8 flex justify-center z-20">
@@ -135,11 +126,10 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="col-span-3 flex gap-7">
       <div class="card flex-1 flex items-center overflow-hidden px-0">
         <div class="flex items-center h-full px-10 text-white font-bold text-[20px] uppercase" style="background:var(--accent);">Bilgi</div>
-        <div class="overflow-hidden flex-1"><div class="ticker-track text-[28px] font-semibold">Hoşgeldiniz +++ Camimizde lütfen telefonlarınızı sessize alınız +++ Cuma Namazı Vakti: 13:30 +++</div></div>
+        <div class="overflow-hidden flex-1"><div id="ticker-text" class="ticker-track text-[28px] font-semibold">Wird geladen...</div></div>
       </div>
       <div class="card flex items-center justify-center p-4 bg-white" style="width:450px;">
         <img src="logo.png" alt="Logo" class="h-full w-auto object-contain">
@@ -148,6 +138,6 @@
   </div>
 </div>
 
-<script src="script.js?v=2"></script>
+<script src="script.js?v=3"></script>
 </body>
 </html>
