@@ -24,7 +24,8 @@ let prayerData = [];
 async function fetchPrayers() {
     const listLabel = document.getElementById('g-date-short');
     try {
-        const response = await fetch('https://prayertimes.api.abdus.dev/api/diyanet/prayertimes?location_id=10409');
+        const apiUrl = encodeURIComponent('https://prayertimes.api.abdus.dev/api/diyanet/prayertimes?location_id=10409');
+        const response = await fetch('https://corsproxy.io/?' + apiUrl);
         if (!response.ok) throw new Error("API-Server nicht erreichbar");
         
         const data = await response.json();
