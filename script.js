@@ -9,16 +9,27 @@ function scaleStage() {
 window.addEventListener('resize', scaleStage);
 scaleStage();
 
+// HIER SIND DIE NEUEN KORREKTUREN (offset in Minuten)
 const apiMapping = [
-    { key: 'fajr', de: 'Morgengebet', tr: 'Sabah', prayer: true },
-    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false },
-    { key: 'dhuhr', de: 'Mittag', tr: 'Öğle', prayer: true },
-    { key: 'asr', de: 'Nachmittag', tr: 'İkindi', prayer: true },
-    { key: 'maghrib', de: 'Abend', tr: 'Akşam', prayer: true },
-    { key: 'isha', de: 'Nachgebet', tr: 'Yatsı', prayer: true }
+    { key: 'fajr', de: 'Morgengebet', tr: 'Sabah', prayer: true, offset: -2 },
+    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false, offset: -1 },
+    { key: 'dhuhr', de: 'Mittag', tr: 'Öğle', prayer: true, offset: -1 },
+    { key: 'asr', de: 'Nachmittag', tr: 'İkindi', prayer: true, offset: 0 },
+    { key: 'maghrib', de: 'Abend', tr: 'Akşam', prayer: true, offset: 0 },
+    { key: 'isha', de: 'Nachgebet', tr: 'Yatsı', prayer: true, offset: -3 }
 ];
 
 let prayerData = [];
+
+// Hilfsfunktion: Zieht die Minuten von der API-Zeit ab oder addiert sie
+function adjustTime(timeStr, offsetMins) {
+    if (!timeStr) return "--:--";
+    const [h, m] = timeStr.split(':').map(Number);
+    const d = new Date();
+    d.setHours(h, m + offsetMins, 0, 0);
+    const pad = n => String(n).padStart(2, '0');
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
 
 async function fetchPrayers() {
     const listLabel = document.getElementById('g-date-short');
@@ -34,9 +45,13 @@ async function fetchPrayers() {
         
         const todayData = data.find(day => day.date.startsWith(localDate)) || data[0];
 
-        // NEU: 'key' wird jetzt mitgespeichert, damit wir Sonnenaufgang wiederfinden
+        // Die Zeiten werden direkt beim Auslesen mit dem Offset verrechnet
         prayerData = apiMapping.map(m => ({
-            key: m.key, nameDe: m.de, nameTr: m.tr, time: todayData[m.key], isPrayer: m.prayer
+            key: m.key, 
+            nameDe: m.de, 
+            nameTr: m.tr, 
+            time: adjustTime(todayData[m.key], m.offset), // Berechnung wird hier aufgerufen
+            isPrayer: m.prayer
         }));
 
         renderList();
@@ -78,7 +93,7 @@ function renderList() {
     
     document.getElementById('prayer-list').innerHTML = html;
     
-    // NEU: Sonnenaufgang (Güneş) suchen und 30 Minuten abziehen
+    // Sonnenaufgang suchen und 30 Minuten abziehen (nutzt jetzt die bereits korrigierte Zeit!)
     const sunriseData = prayerData.find(p => p.key === 'sun');
     if (sunriseData) {
         const sunriseDate = toDate(sunriseData.time);
@@ -135,16 +150,14 @@ async function fetchDriveData() {
         const response = await fetch(scriptUrl);
         const data = await response.json();
         
-        // 1. Ticker aktualisieren (mit neuer Logik für langes/kurzes Scrollen)
+        // 1. Ticker aktualisieren 
         if (data.ticker) {
             const textEl = document.getElementById('ticker-text');
             const containerEl = document.getElementById('ticker-container');
             
-            // Erstmal Animation stoppen und Text einfügen
             textEl.classList.remove('ticker-animate');
             textEl.textContent = data.ticker;
             
-            // Kurze Pause, damit der Browser die neue Breite berechnen kann
             setTimeout(() => {
                 if (textEl.scrollWidth > containerEl.clientWidth) {
                     textEl.classList.add('ticker-animate');
