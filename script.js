@@ -12,11 +12,11 @@ scaleStage();
 // HIER SIND DIE NEUEN KORREKTUREN (offset in Minuten)
 const apiMapping = [
     { key: 'fajr', de: 'Morgengebet', tr: 'Sabah', prayer: true, offset: -2 },
-    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false, offset: -1 },
-    { key: 'dhuhr', de: 'Mittag', tr: 'Öğle', prayer: true, offset: -1 },
+    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false, offset: +1 },
+    { key: 'dhuhr', de: 'Mittag', tr: 'Öğle', prayer: true, offset: +1 },
     { key: 'asr', de: 'Nachmittag', tr: 'İkindi', prayer: true, offset: 0 },
     { key: 'maghrib', de: 'Abend', tr: 'Akşam', prayer: true, offset: 0 },
-    { key: 'isha', de: 'Nachgebet', tr: 'Yatsı', prayer: true, offset: -3 }
+    { key: 'isha', de: 'Nachgebet', tr: 'Yatsı', prayer: true, offset: +3 }
 ];
 
 let prayerData = [];
