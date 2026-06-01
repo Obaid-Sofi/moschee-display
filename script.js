@@ -6,13 +6,12 @@ function scaleStage() {
     stage.style.transform = `scale(${s})`;
 }
 
-// Sofort ausführen und bei Größenänderung
 window.addEventListener('resize', scaleStage);
 scaleStage();
 
 const apiMapping = [
     { key: 'fajr', de: 'Morgengebet', tr: 'Sabah', prayer: true },
-    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false }, // "sun" korrigiert
+    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false },
     { key: 'dhuhr', de: 'Mittag', tr: 'Öğle', prayer: true },
     { key: 'asr', de: 'Nachmittag', tr: 'İkindi', prayer: true },
     { key: 'maghrib', de: 'Abend', tr: 'Akşam', prayer: true },
@@ -24,7 +23,6 @@ let prayerData = [];
 async function fetchPrayers() {
     const listLabel = document.getElementById('g-date-short');
     try {
-        // Proxy für die CORS-Blockade
         const apiUrl = encodeURIComponent('https://prayertimes.api.abdus.dev/api/diyanet/prayertimes?location_id=10409');
         const response = await fetch('https://corsproxy.io/?' + apiUrl);
         if (!response.ok) throw new Error("API-Server nicht erreichbar");
@@ -34,11 +32,11 @@ async function fetchPrayers() {
         const offset = now.getTimezoneOffset() * 60000;
         const localDate = new Date(now - offset).toISOString().split('T')[0];
         
-        // StartsWith damit der heutige Tag sicher gefunden wird
         const todayData = data.find(day => day.date.startsWith(localDate)) || data[0];
 
+        // NEU: 'key' wird jetzt mitgespeichert, damit wir Sonnenaufgang wiederfinden
         prayerData = apiMapping.map(m => ({
-            nameDe: m.de, nameTr: m.tr, time: todayData[m.key], isPrayer: m.prayer
+            key: m.key, nameDe: m.de, nameTr: m.tr, time: todayData[m.key], isPrayer: m.prayer
         }));
 
         renderList();
@@ -60,7 +58,7 @@ function getNextPrayer() {
     if(!prayerData.length) return null;
     const now = new Date();
     const next = prayerData.filter(p => p.isPrayer).find(p => toDate(p.time) > now);
-    return next || prayerData.find(p => p.isPrayer); // Falls alle vorbei, nimm Fajr
+    return next || prayerData.find(p => p.isPrayer);
 }
 
 function renderList() {
@@ -77,8 +75,19 @@ function renderList() {
               <span class="tnum text-[30px] font-extrabold ${active?'':'text-black'}">${p.time}</span>
             </div>`;
     }).join('');
+    
     document.getElementById('prayer-list').innerHTML = html;
-    document.getElementById('sabah-time-highlight').textContent = prayerData[0].time;
+    
+    // NEU: Sonnenaufgang (Güneş) suchen und 30 Minuten abziehen
+    const sunriseData = prayerData.find(p => p.key === 'sun');
+    if (sunriseData) {
+        const sunriseDate = toDate(sunriseData.time);
+        sunriseDate.setMinutes(sunriseDate.getMinutes() - 30);
+        
+        const hh = String(sunriseDate.getHours()).padStart(2, '0');
+        const mm = String(sunriseDate.getMinutes()).padStart(2, '0');
+        document.getElementById('sabah-time-highlight').textContent = `${hh}:${mm}`;
+    }
 }
 
 function updateCountdown() {
@@ -120,15 +129,27 @@ let currentSlide = 0;
 
 async function fetchDriveData() {
     try {
-        // !!! HIER DEINEN KOPIERTEN GOOGLE SCRIPT LINK EINTRAGEN !!!
+        // !!! HIER DEINEN KOPIERTEN GOOGLE SCRIPT LINK WIEDER EINTRAGEN !!!
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbyRK3447pbnJYH16D5a2mmrZ6TTHSrYvbptNTtNmjHLrRple8iD0pd0NCFLBXTPWfqE/exec';
         
         const response = await fetch(scriptUrl);
         const data = await response.json();
         
-        // 1. Ticker aktualisieren
+        // 1. Ticker aktualisieren (mit neuer Logik für langes/kurzes Scrollen)
         if (data.ticker) {
-            document.getElementById('ticker-text').textContent = data.ticker;
+            const textEl = document.getElementById('ticker-text');
+            const containerEl = document.getElementById('ticker-container');
+            
+            // Erstmal Animation stoppen und Text einfügen
+            textEl.classList.remove('ticker-animate');
+            textEl.textContent = data.ticker;
+            
+            // Kurze Pause, damit der Browser die neue Breite berechnen kann
+            setTimeout(() => {
+                if (textEl.scrollWidth > containerEl.clientWidth) {
+                    textEl.classList.add('ticker-animate');
+                }
+            }, 150);
         }
         
         // 2. Slides aktualisieren
@@ -145,7 +166,6 @@ function initSlides() {
     const showEl = document.getElementById('slideshow');
     const dotsEl = document.getElementById('dots');
     
-    // Leeren für den Fall, dass Bilder im Drive geändert wurden
     showEl.innerHTML = '';
     dotsEl.innerHTML = '';
     currentSlide = 0; 
