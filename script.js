@@ -12,7 +12,7 @@ scaleStage();
 
 const apiMapping = [
     { key: 'fajr', de: 'Morgengebet', tr: 'Sabah', prayer: true },
-    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false },
+    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false }, // "sun" korrigiert
     { key: 'dhuhr', de: 'Mittag', tr: 'Öğle', prayer: true },
     { key: 'asr', de: 'Nachmittag', tr: 'İkindi', prayer: true },
     { key: 'maghrib', de: 'Abend', tr: 'Akşam', prayer: true },
@@ -24,6 +24,7 @@ let prayerData = [];
 async function fetchPrayers() {
     const listLabel = document.getElementById('g-date-short');
     try {
+        // Proxy für die CORS-Blockade
         const apiUrl = encodeURIComponent('https://prayertimes.api.abdus.dev/api/diyanet/prayertimes?location_id=10409');
         const response = await fetch('https://corsproxy.io/?' + apiUrl);
         if (!response.ok) throw new Error("API-Server nicht erreichbar");
@@ -33,6 +34,7 @@ async function fetchPrayers() {
         const offset = now.getTimezoneOffset() * 60000;
         const localDate = new Date(now - offset).toISOString().split('T')[0];
         
+        // StartsWith damit der heutige Tag sicher gefunden wird
         const todayData = data.find(day => day.date.startsWith(localDate)) || data[0];
 
         prayerData = apiMapping.map(m => ({
@@ -42,8 +44,8 @@ async function fetchPrayers() {
         renderList();
         updateCountdown();
     } catch (error) {
-        console.error("Fehler:", error);
-        if (listLabel) listLabel.innerHTML = "<span style='color:red'>Fehler: Live-Server nutzen!</span>";
+        console.error("Fehler bei den Gebetszeiten:", error);
+        if (listLabel) listLabel.innerHTML = `<span style='color:red'>Fehler: ${error.message}</span>`;
     }
 }
 
@@ -111,21 +113,51 @@ function updateDates() {
     document.getElementById('h-date').textContent = hijri.format(now) + ' H';
 }
 
-const slides = [
-    { img: 'https://images.unsplash.com/photo-1627337192301-44755106606f?auto=format&fit=crop&w=1000&q=80' },
-    { img: 'https://images.unsplash.com/photo-1590076214227-89808381592c?auto=format&fit=crop&w=1000&q=80' },
-    { img: 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=1000&q=80' }
-];
 
+// --- GOOGLE DRIVE INTEGRATION ---
+let slides = []; 
 let currentSlide = 0;
+
+async function fetchDriveData() {
+    try {
+        // !!! HIER DEINEN KOPIERTEN GOOGLE SCRIPT LINK EINTRAGEN !!!
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzBJRxgu3yUnLdyBeLJL67KH7QifQypWsjlAS8qcZdwRZd1P9IrM8kqKMSXe-veCm_w/exec';
+        
+        const response = await fetch(scriptUrl);
+        const data = await response.json();
+        
+        // 1. Ticker aktualisieren
+        if (data.ticker) {
+            document.getElementById('ticker-text').textContent = data.ticker;
+        }
+        
+        // 2. Slides aktualisieren
+        if (data.images && data.images.length > 0) {
+            slides = data.images.map(url => ({ img: url }));
+            initSlides();
+        }
+    } catch (error) {
+        console.error("Fehler beim Laden von Google Drive:", error);
+    }
+}
+
 function initSlides() {
     const showEl = document.getElementById('slideshow');
     const dotsEl = document.getElementById('dots');
+    
+    // Leeren für den Fall, dass Bilder im Drive geändert wurden
+    showEl.innerHTML = '';
+    dotsEl.innerHTML = '';
+    currentSlide = 0; 
+
+    if (slides.length === 0) return;
+
     slides.forEach((sl, i) => {
         const d = document.createElement('div');
         d.className = 'slide' + (i === 0 ? ' active' : '');
         d.style.backgroundImage = `url('${sl.img}')`;
         showEl.appendChild(d);
+        
         const dot = document.createElement('span');
         dot.style.cssText = 'width:12px;height:12px;border-radius:99px;transition:.4s;background:' + (i === 0 ? '#009972' : 'rgba(0,0,0,0.2)');
         dotsEl.appendChild(dot);
@@ -135,7 +167,8 @@ function initSlides() {
 function goSlide(n) {
     const els = document.querySelectorAll('.slide');
     const dots = document.getElementById('dots').children;
-    if (!els.length) return;
+    if (!els.length || els.length <= 1) return;
+    
     els[currentSlide].classList.remove('active');
     dots[currentSlide].style.background = 'rgba(0,0,0,0.2)';
     currentSlide = (n + slides.length) % slides.length;
@@ -145,9 +178,14 @@ function goSlide(n) {
 
 // Start-Sequenz
 updateDates();
-initSlides();
 fetchPrayers();
+fetchDriveData(); 
 scaleStage();
+
 setInterval(updateClock, 1000);
 setInterval(updateCountdown, 1000);
 setInterval(() => goSlide(currentSlide + 1), 8000);
+
+// Automatische Aktualisierungen im Hintergrund
+setInterval(fetchDriveData, 30 * 60 * 1000); // Drive Daten alle 30 Min checken
+setInterval(fetchPrayers, 6 * 60 * 60 * 1000); // Gebetszeiten alle 6 Stunden neu laden
