@@ -12,7 +12,7 @@ scaleStage();
 
 const apiMapping = [
     { key: 'fajr', de: 'Morgengebet', tr: 'Sabah', prayer: true },
-    { key: 'sunrise', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false },
+    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false },
     { key: 'dhuhr', de: 'Mittag', tr: 'Öğle', prayer: true },
     { key: 'asr', de: 'Nachmittag', tr: 'İkindi', prayer: true },
     { key: 'maghrib', de: 'Abend', tr: 'Akşam', prayer: true },
@@ -32,7 +32,7 @@ async function fetchPrayers() {
         const offset = now.getTimezoneOffset() * 60000;
         const localDate = new Date(now - offset).toISOString().split('T')[0];
         
-        const todayData = data.find(day => day.date === localDate) || data[0];
+        const todayData = data.find(day => day.date.startsWith(localDate)) || data[0];
 
         prayerData = apiMapping.map(m => ({
             nameDe: m.de, nameTr: m.tr, time: todayData[m.key], isPrayer: m.prayer
