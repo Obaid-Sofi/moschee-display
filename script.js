@@ -121,7 +121,7 @@ let currentSlide = 0;
 async function fetchDriveData() {
     try {
         // !!! HIER DEINEN KOPIERTEN GOOGLE SCRIPT LINK EINTRAGEN !!!
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzBJRxgu3yUnLdyBeLJL67KH7QifQypWsjlAS8qcZdwRZd1P9IrM8kqKMSXe-veCm_w/exec';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwHnIX9e72RBAsgxZUfXU334PWOrLD0RQEbLn3Id5hdoEymDeBkLxVLTD24GTEMhY1Y/exec';
         
         const response = await fetch(scriptUrl);
         const data = await response.json();
