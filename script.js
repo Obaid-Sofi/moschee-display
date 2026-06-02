@@ -222,3 +222,14 @@ setInterval(() => goSlide(currentSlide + 1), 8000);
 // Automatische Aktualisierungen im Hintergrund
 setInterval(fetchDriveData, 30 * 60 * 1000); // Drive Daten alle 30 Min checken
 setInterval(fetchPrayers, 6 * 60 * 60 * 1000); // Gebetszeiten alle 6 Stunden neu laden
+
+// --- MITTERNACHTS-NEUSTART (Für den sauberen Tageswechsel) ---
+function checkMidnight() {
+    const now = new Date();
+    // Wenn es exakt 00:00:00 Uhr ist, lade die komplette Seite neu!
+    if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {
+        window.location.reload();
+    }
+}
+// Prüft jede Sekunde die Uhrzeit
+setInterval(checkMidnight, 1000);
