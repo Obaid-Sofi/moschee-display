@@ -81,27 +81,32 @@ function renderList() {
     const html = prayerData.map(p => {
         const active = next && p.isPrayer && p.nameDe === next.nameDe;
         return `
-            <div class="flex items-center justify-between rounded-2xl px-6 py-[14px] transition ${active ? 'text-white' : 'bg-gray-50'}"
-                 style="${active ? 'background:linear-gradient(120deg,#009972,#007a5b);' : ''}">
-              <div class="flex flex-col">
-                <span class="text-[24px] font-bold leading-none ${active?'':'text-black'}">${p.nameDe}</span>
-                <span class="text-[16px] font-medium ${active?'text-white/70':'text-accent'} uppercase mt-1">${p.nameTr}</span>
-              </div>
-              <span class="tnum text-[30px] font-extrabold ${active?'':'text-black'}">${p.time}</span>
+            <div class="grid items-center rounded-2xl px-6 py-[14px] transition ${active ? 'text-white' : 'bg-gray-50'}"
+                 style="grid-template-columns:1fr auto 1fr;${active ? 'background:linear-gradient(120deg,#009972,#007a5b);' : ''}">
+              <span class="text-[26px] font-bold leading-none whitespace-nowrap ${active?'':'text-black'}">${p.nameDe}</span>
+              <span class="tnum text-[48px] font-extrabold leading-none text-center px-3 ${active?'':'text-black'}">${p.time}</span>
+              <span class="text-[26px] font-semibold leading-none text-right uppercase whitespace-nowrap ${active?'text-white/80':'text-accent'}">${p.nameTr}</span>
             </div>`;
     }).join('');
-    
+
     document.getElementById('prayer-list').innerHTML = html;
-    
+
     // Sonnenaufgang suchen und 30 Minuten abziehen (nutzt jetzt die bereits korrigierte Zeit!)
     const sunriseData = prayerData.find(p => p.key === 'sun');
     if (sunriseData) {
         const sunriseDate = toDate(sunriseData.time);
         sunriseDate.setMinutes(sunriseDate.getMinutes() - 30);
-        
+
         const hh = String(sunriseDate.getHours()).padStart(2, '0');
         const mm = String(sunriseDate.getMinutes()).padStart(2, '0');
         document.getElementById('sabah-time-highlight').textContent = `${hh}:${mm}`;
+    }
+
+    // Freitagsgebet (Cuma) ist identisch mit dem Mittagsgebet (Öğle/Dhuhr)
+    const cumaEl = document.getElementById('cuma-time');
+    const dhuhrData = prayerData.find(p => p.key === 'dhuhr');
+    if (cumaEl && dhuhrData) {
+        cumaEl.textContent = dhuhrData.time;
     }
 }
 
