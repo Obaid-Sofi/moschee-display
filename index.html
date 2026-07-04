@@ -55,15 +55,6 @@
 
   .pulse { animation:pulse 2s ease-in-out infinite; }
   @keyframes pulse { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:.35; transform:scale(.85);} }
-
-  /* Zeile mit Verlauf-Rand (Sabah / Cuma) */
-  .grad-border {
-    border: 2px solid transparent;
-    border-radius: 18px;
-    background:
-      linear-gradient(rgba(255,255,255,.12), rgba(255,255,255,.04)) padding-box,
-      linear-gradient(120deg, rgba(255,255,255,.95), rgba(255,255,255,.30)) border-box;
-  }
 </style>
 </head>
 <body>
@@ -148,20 +139,26 @@
               <span class="text-[12px] font-bold uppercase tracking-[.25em]">Außerdem / Ayrıca</span>
               <div class="h-px flex-1 bg-white/40"></div>
             </div>
-            <div class="flex flex-col gap-3">
-              <div class="grad-border flex items-center justify-between px-6 py-4">
-                <div class="leading-tight">
-                  <div class="text-[26px] font-bold">Morgengebet</div>
-                  <div class="text-[16px] font-semibold uppercase tracking-[.14em] opacity-75 mt-1">Sabah</div>
+            <div class="flex flex-col divide-y divide-white/15">
+              <div class="flex items-center justify-between gap-4 py-4">
+                <div class="flex items-center gap-4 min-w-0">
+                  <span class="w-1.5 h-11 rounded-full bg-white/80 shrink-0"></span>
+                  <div class="leading-tight min-w-0">
+                    <div class="text-[26px] font-bold leading-none">Morgengebet</div>
+                    <div class="text-[15px] font-semibold uppercase tracking-[.16em] opacity-70 mt-1">Sabah</div>
+                  </div>
                 </div>
-                <span id="sabah-time-highlight" class="tnum text-[38px] font-extrabold">--:--</span>
+                <span id="sabah-time-highlight" class="tnum text-[40px] font-extrabold">--:--</span>
               </div>
-              <div class="grad-border flex items-center justify-between px-6 py-4">
-                <div class="leading-tight">
-                  <div class="text-[26px] font-bold">Freitagsgebet</div>
-                  <div class="text-[16px] font-semibold uppercase tracking-[.14em] opacity-75 mt-1">Cuma</div>
+              <div class="flex items-center justify-between gap-4 py-4">
+                <div class="flex items-center gap-4 min-w-0">
+                  <span class="w-1.5 h-11 rounded-full bg-white/80 shrink-0"></span>
+                  <div class="leading-tight min-w-0">
+                    <div class="text-[26px] font-bold leading-none">Freitagsgebet</div>
+                    <div class="text-[15px] font-semibold uppercase tracking-[.16em] opacity-70 mt-1">Cuma</div>
+                  </div>
                 </div>
-                <span id="cuma-time" class="tnum text-[38px] font-extrabold">--:--</span>
+                <span id="cuma-time" class="tnum text-[40px] font-extrabold">--:--</span>
               </div>
             </div>
           </div>
@@ -192,6 +189,6 @@
   </div>
 </div>
 
-<script src="script.js?v=11"></script>
+<script src="script.js?v=12"></script>
 </body>
 </html>
