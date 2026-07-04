@@ -66,7 +66,7 @@
     <!-- LINKE SEITE: Kopf, Gebetszeiten, Nächstes Gebet, Ticker -->
     <div class="grid gap-8 min-h-0" style="grid-template-rows: 120px minmax(0,1fr) 90px;">
 
-      <header class="card flex items-center justify-between px-10">
+      <header class="card grid grid-cols-3 items-center px-10">
         <div class="flex items-center gap-4">
           <div class="flex items-center justify-center w-14 h-14 rounded-2xl overflow-hidden shrink-0">
             <img src="logo2.png" alt="Logo" class="w-full h-full object-contain bg-white">
@@ -77,13 +77,18 @@
           </div>
         </div>
         <div class="flex flex-col items-center">
-          <div id="clock" class="tnum text-[62px] font-extrabold text-black leading-none">00:00:00</div>
+          <div id="clock" class="tnum text-[58px] font-extrabold text-black leading-none">00:00:00</div>
           <div class="text-[12px] font-semibold tracking-[.3em] uppercase text-accent mt-1">Aktuelle Uhrzeit</div>
         </div>
-        <div class="flex items-stretch gap-6 justify-end">
-          <div class="text-right"><div class="text-[12px] font-bold text-gray-400 uppercase">Gregorianisch</div><div id="g-date" class="text-[18px] font-bold text-black">–</div></div>
-          <div class="w-px bg-gray-200"></div>
-          <div class="text-right"><div class="text-[12px] font-bold text-accent uppercase">Hicri</div><div id="h-date" class="text-[18px] font-bold text-black">–</div></div>
+        <div class="flex flex-col items-end gap-2">
+          <div class="flex items-baseline gap-3">
+            <span class="text-[12px] font-bold text-gray-400 uppercase tracking-wide">Gregorianisch</span>
+            <span id="g-date" class="text-[19px] font-bold text-black">–</span>
+          </div>
+          <div class="flex items-baseline gap-3">
+            <span class="text-[12px] font-bold text-accent uppercase tracking-wide">Hicri</span>
+            <span id="h-date" class="text-[19px] font-bold text-black">–</span>
+          </div>
         </div>
       </header>
 
@@ -107,7 +112,7 @@
 
           <div class="text-center mt-5">
             <div id="next-name-tr" class="text-[54px] font-extrabold uppercase leading-none">--</div>
-            <div id="next-name-de" class="text-[26px] font-medium opacity-70 italic mt-1">--</div>
+            <div id="next-name-de" class="text-[26px] font-medium opacity-70 mt-1">--</div>
           </div>
 
           <div class="text-center mt-7">
@@ -121,14 +126,27 @@
           </div>
 
           <!-- Sabah (Morgengebet) & Cuma (Freitagsgebet = Mittag) -->
-          <div class="mt-auto grid grid-cols-2 gap-4 pt-6">
-            <div class="bg-white/15 rounded-2xl px-4 py-4 text-center">
-              <div class="text-[13px] font-bold uppercase tracking-[.15em] opacity-70">Sabah / Morgen</div>
-              <div id="sabah-time-highlight" class="tnum text-[34px] font-extrabold mt-1">--:--</div>
+          <div class="mt-auto pt-6">
+            <div class="flex items-center gap-4 mb-4 opacity-60">
+              <div class="h-px flex-1 bg-white/40"></div>
+              <span class="text-[12px] font-bold uppercase tracking-[.25em]">Ayrıca / Außerdem</span>
+              <div class="h-px flex-1 bg-white/40"></div>
             </div>
-            <div class="bg-white/15 rounded-2xl px-4 py-4 text-center">
-              <div class="text-[13px] font-bold uppercase tracking-[.15em] opacity-70">Cuma / Freitag</div>
-              <div id="cuma-time" class="tnum text-[34px] font-extrabold mt-1">--:--</div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex items-center gap-3 bg-white/15 rounded-2xl px-4 py-4">
+                <svg class="shrink-0" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.2" y1="10.2" x2="5.6" y2="11.6"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.4" y1="11.6" x2="19.8" y2="10.2"/><polyline points="8 6 12 2 16 6"/><line x1="1" y1="22" x2="23" y2="22"/></svg>
+                <div class="min-w-0">
+                  <div class="text-[13px] font-bold uppercase tracking-[.12em] opacity-70 leading-tight">Sabah<br><span class="opacity-80">Morgengebet</span></div>
+                  <div id="sabah-time-highlight" class="tnum text-[32px] font-extrabold leading-none mt-1">--:--</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 bg-white/15 rounded-2xl px-4 py-4">
+                <svg class="shrink-0" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h3"/><path d="M8 18h6"/></svg>
+                <div class="min-w-0">
+                  <div class="text-[13px] font-bold uppercase tracking-[.12em] opacity-70 leading-tight">Cuma<br><span class="opacity-80">Freitagsgebet</span></div>
+                  <div id="cuma-time" class="tnum text-[32px] font-extrabold leading-none mt-1">--:--</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -158,6 +176,6 @@
   </div>
 </div>
 
-<script src="script.js?v=8"></script>
+<script src="script.js?v=9"></script>
 </body>
 </html>

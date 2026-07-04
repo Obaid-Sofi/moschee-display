@@ -83,9 +83,9 @@ function renderList() {
         return `
             <div class="grid items-center rounded-2xl px-6 py-[14px] transition ${active ? 'text-white' : 'bg-gray-50'}"
                  style="grid-template-columns:1fr auto 1fr;${active ? 'background:linear-gradient(120deg,#009972,#007a5b);' : ''}">
-              <span class="text-[26px] font-bold leading-none whitespace-nowrap ${active?'':'text-black'}">${p.nameDe}</span>
-              <span class="tnum text-[48px] font-extrabold leading-none text-center px-3 ${active?'':'text-black'}">${p.time}</span>
-              <span class="text-[26px] font-semibold leading-none text-right uppercase whitespace-nowrap ${active?'text-white/80':'text-accent'}">${p.nameTr}</span>
+              <span class="text-[25px] font-semibold leading-none whitespace-nowrap ${active?'':'text-gray-800'}">${p.nameTr}</span>
+              <span class="tnum text-[46px] font-extrabold leading-none text-center px-3 ${active?'':'text-accent'}">${p.time}</span>
+              <span class="text-[25px] font-semibold leading-none text-right whitespace-nowrap ${active?'':'text-gray-800'}">${p.nameDe}</span>
             </div>`;
     }).join('');
 
