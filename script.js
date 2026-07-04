@@ -81,11 +81,11 @@ function renderList() {
     const html = prayerData.map(p => {
         const active = next && p.isPrayer && p.nameDe === next.nameDe;
         return `
-            <div class="grid items-center rounded-2xl px-6 py-[14px] transition ${active ? 'text-white' : 'bg-gray-50'}"
+            <div class="grid items-center rounded-2xl px-6 py-[15px] transition ${active ? 'text-white' : 'bg-gray-50'}"
                  style="grid-template-columns:1fr auto 1fr;${active ? 'background:linear-gradient(120deg,#009972,#007a5b);' : ''}">
-              <span class="text-[25px] font-semibold leading-none whitespace-nowrap ${active?'':'text-gray-800'}">${p.nameTr}</span>
-              <span class="tnum text-[46px] font-extrabold leading-none text-center px-3 ${active?'':'text-accent'}">${p.time}</span>
-              <span class="text-[25px] font-semibold leading-none text-right whitespace-nowrap ${active?'':'text-gray-800'}">${p.nameDe}</span>
+              <span class="min-w-0 truncate text-[27px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameTr}</span>
+              <span class="tnum text-[50px] font-extrabold leading-none text-center px-5 ${active?'':'text-accent'}">${p.time}</span>
+              <span class="min-w-0 truncate text-right text-[27px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameDe}</span>
             </div>`;
     }).join('');
 
