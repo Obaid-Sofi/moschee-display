@@ -12,7 +12,7 @@ scaleStage();
 // HIER SIND DIE NEUEN KORREKTUREN (offset in Minuten)
 const apiMapping = [
     { key: 'fajr', de: 'Morgengebet', tr: 'Sabah', prayer: true, offset: -2 },
-    { key: 'sun', de: 'Sonnenaufgang', tr: 'Güneş', prayer: false, offset: +1 },
+    { key: 'sun', de: 'Aufgang', tr: 'Güneş', prayer: false, offset: +1 },
     { key: 'dhuhr', de: 'Mittag', tr: 'Öğle', prayer: true, offset: +1 },
     { key: 'asr', de: 'Nachmittag', tr: 'İkindi', prayer: true, offset: 0 },
     { key: 'maghrib', de: 'Abend', tr: 'Akşam', prayer: true, offset: 0 },
@@ -83,9 +83,9 @@ function renderList() {
         return `
             <div class="grid items-center rounded-2xl px-6 py-[15px] transition ${active ? 'text-white' : 'bg-gray-50'}"
                  style="grid-template-columns:1fr auto 1fr;${active ? 'background:linear-gradient(120deg,#009972,#007a5b);' : ''}">
-              <span class="min-w-0 truncate text-[27px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameTr}</span>
-              <span class="tnum text-[50px] font-extrabold leading-none text-center px-5 ${active?'':'text-accent'}">${p.time}</span>
-              <span class="min-w-0 truncate text-right text-[27px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameDe}</span>
+              <span class="min-w-0 truncate text-[27px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameDe}</span>
+              <span class="tnum text-[50px] font-extrabold leading-none text-center px-4 ${active?'':'text-accent'}">${p.time}</span>
+              <span class="min-w-0 truncate text-right text-[27px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameTr}</span>
             </div>`;
     }).join('');
 

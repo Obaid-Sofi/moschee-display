@@ -55,6 +55,15 @@
 
   .pulse { animation:pulse 2s ease-in-out infinite; }
   @keyframes pulse { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:.35; transform:scale(.85);} }
+
+  /* Zeile mit Verlauf-Rand (Sabah / Cuma) */
+  .grad-border {
+    border: 2px solid transparent;
+    border-radius: 18px;
+    background:
+      linear-gradient(rgba(255,255,255,.12), rgba(255,255,255,.04)) padding-box,
+      linear-gradient(120deg, rgba(255,255,255,.95), rgba(255,255,255,.30)) border-box;
+  }
 </style>
 </head>
 <body>
@@ -102,8 +111,8 @@
         <div class="card flex flex-col px-8 py-7 overflow-hidden">
           <div class="flex items-end justify-between mb-4">
             <div>
-              <h2 class="text-[32px] font-extrabold text-black leading-none">Namaz Vakitleri</h2>
-              <div class="text-[15px] font-bold text-accent uppercase tracking-[.18em] mt-1">Gebetszeiten</div>
+              <h2 class="text-[32px] font-extrabold text-black leading-none">Gebetszeiten</h2>
+              <div class="text-[15px] font-bold text-accent uppercase tracking-[.18em] mt-1">Namaz Vakitleri</div>
             </div>
             <span class="text-[15px] font-semibold text-gray-400 pb-1" id="g-date-short">Wird geladen...</span>
           </div>
@@ -114,12 +123,12 @@
         <div class="card flex flex-col text-white relative overflow-hidden p-8" style="background:linear-gradient(180deg,#00a47a,#007a5b);">
           <div class="flex items-center justify-center gap-3">
             <span class="w-3 h-3 rounded-full bg-white pulse"></span>
-            <span class="text-[16px] font-bold tracking-[.3em] uppercase opacity-80">Sıradaki / Nächstes</span>
+            <span class="text-[16px] font-bold tracking-[.3em] uppercase opacity-80">Nächstes / Sıradaki</span>
           </div>
 
           <div class="text-center mt-5">
-            <div id="next-name-tr" class="text-[54px] font-extrabold uppercase leading-none">--</div>
-            <div id="next-name-de" class="text-[26px] font-medium opacity-70 mt-1">--</div>
+            <div id="next-name-de" class="text-[42px] font-extrabold uppercase leading-none">--</div>
+            <div id="next-name-tr" class="text-[24px] font-medium opacity-70 mt-1">--</div>
           </div>
 
           <div class="text-center mt-7">
@@ -136,29 +145,23 @@
           <div class="mt-auto pt-6">
             <div class="flex items-center gap-4 mb-4 opacity-60">
               <div class="h-px flex-1 bg-white/40"></div>
-              <span class="text-[12px] font-bold uppercase tracking-[.25em]">Ayrıca / Außerdem</span>
+              <span class="text-[12px] font-bold uppercase tracking-[.25em]">Außerdem / Ayrıca</span>
               <div class="h-px flex-1 bg-white/40"></div>
             </div>
             <div class="flex flex-col gap-3">
-              <div class="flex items-center justify-between rounded-2xl border border-white/40 px-5 py-3">
-                <div class="flex items-center gap-4 min-w-0">
-                  <svg class="shrink-0" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.2" y1="10.2" x2="5.6" y2="11.6"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.4" y1="11.6" x2="19.8" y2="10.2"/><polyline points="8 6 12 2 16 6"/><line x1="1" y1="22" x2="23" y2="22"/></svg>
-                  <div class="leading-tight">
-                    <div class="text-[22px] font-bold">Sabah</div>
-                    <div class="text-[13px] font-semibold uppercase tracking-[.12em] opacity-70">Morgengebet</div>
-                  </div>
+              <div class="grad-border flex items-center justify-between px-6 py-4">
+                <div class="leading-tight">
+                  <div class="text-[26px] font-bold">Morgengebet</div>
+                  <div class="text-[16px] font-semibold uppercase tracking-[.14em] opacity-75 mt-1">Sabah</div>
                 </div>
-                <span id="sabah-time-highlight" class="tnum text-[34px] font-extrabold">--:--</span>
+                <span id="sabah-time-highlight" class="tnum text-[38px] font-extrabold">--:--</span>
               </div>
-              <div class="flex items-center justify-between rounded-2xl border border-white/40 px-5 py-3">
-                <div class="flex items-center gap-4 min-w-0">
-                  <svg class="shrink-0" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h3"/><path d="M8 18h6"/></svg>
-                  <div class="leading-tight">
-                    <div class="text-[22px] font-bold">Cuma</div>
-                    <div class="text-[13px] font-semibold uppercase tracking-[.12em] opacity-70">Freitagsgebet</div>
-                  </div>
+              <div class="grad-border flex items-center justify-between px-6 py-4">
+                <div class="leading-tight">
+                  <div class="text-[26px] font-bold">Freitagsgebet</div>
+                  <div class="text-[16px] font-semibold uppercase tracking-[.14em] opacity-75 mt-1">Cuma</div>
                 </div>
-                <span id="cuma-time" class="tnum text-[34px] font-extrabold">--:--</span>
+                <span id="cuma-time" class="tnum text-[38px] font-extrabold">--:--</span>
               </div>
             </div>
           </div>
@@ -169,8 +172,8 @@
         <div class="flex items-center gap-4 h-full px-8 text-white shrink-0" style="background:var(--accent);">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l14-7v16L3 13z"/><path d="M3 11v2a2 2 0 0 0 2 2h1"/><path d="M8 15v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-2"/></svg>
           <div class="leading-tight">
-            <div class="text-[22px] font-bold uppercase tracking-wide">Duyurular</div>
-            <div class="text-[13px] font-medium uppercase tracking-[.2em] opacity-80">Ankündigungen</div>
+            <div class="text-[22px] font-bold uppercase tracking-wide">Ankündigungen</div>
+            <div class="text-[13px] font-medium uppercase tracking-[.2em] opacity-80">Duyurular</div>
           </div>
         </div>
         <div id="ticker-container" class="overflow-hidden flex-1 h-full flex items-center">
@@ -189,6 +192,6 @@
   </div>
 </div>
 
-<script src="script.js?v=10"></script>
+<script src="script.js?v=11"></script>
 </body>
 </html>
