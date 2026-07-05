@@ -83,9 +83,9 @@ function renderList() {
         return `
             <div class="grid items-center rounded-2xl px-6 py-[15px] transition ${active ? 'text-white' : 'bg-gray-50'}"
                  style="grid-template-columns:1fr auto 1fr;${active ? 'background:linear-gradient(120deg,#009972,#007a5b);' : ''}">
-              <span class="min-w-0 truncate text-[27px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameDe}</span>
-              <span class="tnum text-[50px] font-extrabold leading-none text-center px-4 ${active?'':'text-accent'}">${p.time}</span>
-              <span class="min-w-0 truncate text-right text-[27px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameTr}</span>
+              <span class="min-w-0 truncate text-[31px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameDe}</span>
+              <span class="tnum text-[56px] font-extrabold leading-none text-center px-4 ${active?'':'text-accent'}">${p.time}</span>
+              <span class="min-w-0 truncate text-right text-[31px] font-semibold leading-none ${active?'':'text-gray-800'}">${p.nameTr}</span>
             </div>`;
     }).join('');
 
@@ -154,23 +154,8 @@ async function fetchDriveData() {
         
         const response = await fetch(scriptUrl);
         const data = await response.json();
-        
-        // 1. Ticker aktualisieren 
-        if (data.ticker) {
-            const textEl = document.getElementById('ticker-text');
-            const containerEl = document.getElementById('ticker-container');
-            
-            textEl.classList.remove('ticker-animate');
-            textEl.textContent = data.ticker;
-            
-            setTimeout(() => {
-                if (textEl.scrollWidth > containerEl.clientWidth) {
-                    textEl.classList.add('ticker-animate');
-                }
-            }, 150);
-        }
-        
-        // 2. Slides aktualisieren
+
+        // Slides aktualisieren
         if (data.images && data.images.length > 0) {
             slides = data.images.map(url => ({ img: url }));
             initSlides();
