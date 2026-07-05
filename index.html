@@ -103,40 +103,40 @@
             </div>
             <span class="text-[15px] font-semibold text-gray-400 pb-1" id="g-date-short">Wird geladen...</span>
           </div>
-          <div id="prayer-list" class="flex flex-col justify-between flex-1 min-h-0">
+          <div id="prayer-list" class="flex flex-col gap-2 flex-1 min-h-0">
              </div>
         </div>
 
-        <div class="card flex flex-col text-white relative overflow-hidden p-8" style="background:linear-gradient(180deg,#00a47a,#007a5b);">
+        <div class="card flex flex-col text-white relative overflow-hidden p-10" style="background:linear-gradient(180deg,#00a47a,#007a5b);">
           <div class="flex items-center justify-center gap-3">
             <span class="w-3 h-3 rounded-full bg-white pulse"></span>
             <span class="text-[16px] font-bold tracking-[.3em] uppercase opacity-80">Nächstes / Sıradaki</span>
           </div>
 
-          <div class="text-center mt-5">
-            <div id="next-name-de" class="text-[42px] font-extrabold uppercase leading-none">--</div>
-            <div id="next-name-tr" class="text-[24px] font-medium opacity-70 mt-1">--</div>
+          <div class="text-center mt-9">
+            <div id="next-name-de" class="text-[44px] font-extrabold uppercase leading-none">--</div>
+            <div id="next-name-tr" class="text-[24px] font-medium opacity-70 mt-2">--</div>
           </div>
 
-          <div class="text-center mt-7">
+          <div class="text-center mt-auto">
             <div class="text-[15px] font-bold tracking-[.3em] uppercase opacity-70">Beginnt um</div>
-            <div id="next-time" class="tnum text-[96px] font-extrabold tracking-tight leading-none mt-1">00:00</div>
+            <div id="next-time" class="tnum text-[100px] font-extrabold tracking-tight leading-none mt-2">00:00</div>
           </div>
 
-          <div class="text-center mt-6">
+          <div class="text-center mt-10">
             <div class="text-[15px] font-bold tracking-[.3em] uppercase opacity-70">noch</div>
-            <div id="countdown" class="tnum text-[64px] font-extrabold leading-none mt-1">00:00:00</div>
+            <div id="countdown" class="tnum text-[64px] font-extrabold leading-none mt-2">00:00:00</div>
           </div>
 
           <!-- Sabah (Morgengebet) & Cuma (Freitagsgebet = Mittag) -->
-          <div class="mt-auto pt-6">
-            <div class="flex items-center gap-4 mb-4 opacity-60">
+          <div class="mt-auto pt-10">
+            <div class="flex items-center gap-4 mb-5 opacity-60">
               <div class="h-px flex-1 bg-white/40"></div>
               <span class="text-[12px] font-bold uppercase tracking-[.25em]">Außerdem / Ayrıca</span>
               <div class="h-px flex-1 bg-white/40"></div>
             </div>
             <div class="flex flex-col divide-y divide-white/15">
-              <div class="flex items-center justify-between gap-4 py-4">
+              <div class="flex items-center justify-between gap-4 py-5">
                 <div class="flex items-center gap-4 min-w-0">
                   <span class="w-1.5 h-11 rounded-full bg-white/80 shrink-0"></span>
                   <div class="leading-tight min-w-0">
@@ -146,7 +146,7 @@
                 </div>
                 <span id="sabah-time-highlight" class="tnum text-[40px] font-extrabold">--:--</span>
               </div>
-              <div class="flex items-center justify-between gap-4 py-4">
+              <div class="flex items-center justify-between gap-4 py-5">
                 <div class="flex items-center gap-4 min-w-0">
                   <span class="w-1.5 h-11 rounded-full bg-white/80 shrink-0"></span>
                   <div class="leading-tight min-w-0">
@@ -173,6 +173,6 @@
   </div>
 </div>
 
-<script src="script.js?v=13"></script>
+<script src="script.js?v=14"></script>
 </body>
 </html>
