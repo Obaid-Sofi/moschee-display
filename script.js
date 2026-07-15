@@ -32,7 +32,6 @@ function adjustTime(timeStr, offsetMins) {
 }
 
 async function fetchPrayers() {
-    const listLabel = document.getElementById('g-date-short');
     try {
         const apiUrl = encodeURIComponent('https://prayertimes.api.abdus.dev/api/diyanet/prayertimes?location_id=10409');
         const response = await fetch('https://corsproxy.io/?' + apiUrl);
@@ -47,18 +46,33 @@ async function fetchPrayers() {
 
         // Die Zeiten werden direkt beim Auslesen mit dem Offset verrechnet
         prayerData = apiMapping.map(m => ({
-            key: m.key, 
-            nameDe: m.de, 
-            nameTr: m.tr, 
+            key: m.key,
+            nameDe: m.de,
+            nameTr: m.tr,
             time: adjustTime(todayData[m.key], m.offset), // Berechnung wird hier aufgerufen
             isPrayer: m.prayer
         }));
+
+        // Morgengebet (Sabah) = Sonnenaufgang - 30 Min. In die Liste zwischen
+        // Frühlicht (Fajr) und Sonnenaufgang einfügen, dezent hervorgehoben,
+        // da dies die Gebetszeit in der Moschee ist.
+        const sunEntry = prayerData.find(p => p.key === 'sun');
+        const fajrIdx = prayerData.findIndex(p => p.key === 'fajr');
+        if (sunEntry && fajrIdx !== -1) {
+            prayerData.splice(fajrIdx + 1, 0, {
+                key: 'sabah',
+                nameDe: 'Morgengebet',
+                nameTr: 'Sabah',
+                time: adjustTime(sunEntry.time, -30),
+                isPrayer: false,
+                highlight: true
+            });
+        }
 
         renderList();
         updateCountdown();
     } catch (error) {
         console.error("Fehler bei den Gebetszeiten:", error);
-        if (listLabel) listLabel.innerHTML = `<span style='color:red'>Fehler: ${error.message}</span>`;
     }
 }
 
@@ -80,27 +94,35 @@ function renderList() {
     const next = getNextPrayer();
     const html = prayerData.map(p => {
         const active = next && p.isPrayer && p.nameDe === next.nameDe;
+        const highlight = p.highlight && !active;
+
+        let rowClass = 'bg-gray-50';
+        let rowStyle = 'grid-template-columns:1fr auto 1fr;';
+        let nameClass = 'text-gray-800';
+        let timeClass = 'text-accent';
+
+        if (active) {
+            rowClass = 'text-white';
+            rowStyle += 'background:linear-gradient(120deg,#009972,#007a5b);';
+            nameClass = '';
+            timeClass = '';
+        } else if (highlight) {
+            rowClass = '';
+            rowStyle += 'background:rgba(0,153,114,0.10);box-shadow:inset 0 0 0 2px rgba(0,153,114,0.30);';
+            nameClass = 'text-accent';
+            timeClass = 'text-accent';
+        }
+
         return `
-            <div class="grid items-center flex-1 rounded-2xl px-6 transition ${active ? 'text-white' : 'bg-gray-50'}"
-                 style="grid-template-columns:1fr auto 1fr;${active ? 'background:linear-gradient(120deg,#009972,#007a5b);' : ''}">
-              <span class="min-w-0 truncate text-[33px] font-semibold leading-tight ${active?'':'text-gray-800'}">${p.nameDe}</span>
-              <span class="tnum text-[60px] font-extrabold leading-none text-center px-3 ${active?'':'text-accent'}">${p.time}</span>
-              <span class="min-w-0 truncate text-right text-[33px] font-semibold leading-tight ${active?'':'text-gray-800'}">${p.nameTr}</span>
+            <div class="grid items-center flex-1 rounded-2xl px-6 transition ${rowClass}"
+                 style="${rowStyle}">
+              <span class="min-w-0 truncate text-[33px] font-semibold leading-tight ${nameClass}">${p.nameDe}</span>
+              <span class="tnum text-[60px] font-extrabold leading-none text-center px-3 ${timeClass}">${p.time}</span>
+              <span class="min-w-0 truncate text-right text-[33px] font-semibold leading-tight ${nameClass}">${p.nameTr}</span>
             </div>`;
     }).join('');
 
     document.getElementById('prayer-list').innerHTML = html;
-
-    // Sonnenaufgang suchen und 30 Minuten abziehen (nutzt jetzt die bereits korrigierte Zeit!)
-    const sunriseData = prayerData.find(p => p.key === 'sun');
-    if (sunriseData) {
-        const sunriseDate = toDate(sunriseData.time);
-        sunriseDate.setMinutes(sunriseDate.getMinutes() - 30);
-
-        const hh = String(sunriseDate.getHours()).padStart(2, '0');
-        const mm = String(sunriseDate.getMinutes()).padStart(2, '0');
-        document.getElementById('sabah-time-highlight').textContent = `${hh}:${mm}`;
-    }
 
     // Freitagsgebet (Cuma) ist identisch mit dem Mittagsgebet (Öğle/Dhuhr)
     const cumaEl = document.getElementById('cuma-time');
@@ -134,11 +156,9 @@ function updateClock() {
 function updateDates() {
     const now = new Date();
     const de = new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-    const deShort = new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
     const hijri = new Intl.DateTimeFormat('de-DE-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' });
-    
+
     document.getElementById('g-date').textContent = de.format(now);
-    document.getElementById('g-date-short').textContent = deShort.format(now);
     document.getElementById('h-date').textContent = hijri.format(now) + ' H';
 }
 

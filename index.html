@@ -66,29 +66,19 @@
     <!-- LINKE SEITE: Kopf, Gebetszeiten, Nächstes Gebet -->
     <div class="grid gap-8 min-h-0" style="grid-template-rows: 120px minmax(0,1fr);">
 
-      <header class="card grid grid-cols-3 items-center px-10">
+      <header class="card flex items-center justify-between px-10">
         <div class="flex items-center gap-4">
-          <div class="flex items-center justify-center w-14 h-14 rounded-2xl overflow-hidden shrink-0">
+          <div class="flex items-center justify-center w-16 h-16 rounded-2xl overflow-hidden shrink-0">
             <img src="logo2.png" alt="Logo" class="w-full h-full object-contain bg-white">
           </div>
           <div>
-            <div class="text-[30px] font-extrabold leading-none text-black">Ulm</div>
-            <div class="text-[13px] font-medium text-gray-500 tracking-[.22em] uppercase mt-1">Osman Gazi Moschee</div>
+            <div class="text-[34px] font-extrabold leading-none text-black">Ulm</div>
+            <div class="text-[14px] font-medium text-gray-500 tracking-[.22em] uppercase mt-1">Osman Gazi Moschee</div>
           </div>
         </div>
-        <div class="flex flex-col items-center">
-          <div id="clock" class="tnum text-[58px] font-extrabold text-black leading-none">00:00:00</div>
+        <div class="flex flex-col items-end">
+          <div id="clock" class="tnum text-[62px] font-extrabold text-black leading-none">00:00:00</div>
           <div class="text-[12px] font-semibold tracking-[.3em] uppercase text-accent mt-1">Aktuelle Uhrzeit</div>
-        </div>
-        <div class="flex flex-col items-end gap-2">
-          <div class="flex items-baseline gap-3">
-            <span class="text-[12px] font-bold text-gray-400 uppercase tracking-wide">Gregorianisch</span>
-            <span id="g-date" class="text-[19px] font-bold text-black">–</span>
-          </div>
-          <div class="flex items-baseline gap-3">
-            <span class="text-[12px] font-bold text-accent uppercase tracking-wide">Hicri</span>
-            <span id="h-date" class="text-[19px] font-bold text-black">–</span>
-          </div>
         </div>
       </header>
 
@@ -96,13 +86,6 @@
       <div class="grid gap-8 min-h-0" style="grid-template-columns: 1.7fr 1fr;">
 
         <div class="card flex flex-col px-8 py-7 overflow-hidden">
-          <div class="flex items-end justify-between mb-4">
-            <div>
-              <h2 class="text-[32px] font-extrabold text-black leading-none">Gebetszeiten</h2>
-              <div class="text-[15px] font-bold text-accent uppercase tracking-[.18em] mt-1">Namaz Vakitleri</div>
-            </div>
-            <span class="text-[15px] font-semibold text-gray-400 pb-1" id="g-date-short">Wird geladen...</span>
-          </div>
           <div id="prayer-list" class="flex flex-col gap-2 flex-1 min-h-0">
              </div>
         </div>
@@ -128,34 +111,23 @@
             <div id="countdown" class="tnum text-[64px] font-extrabold leading-none mt-2">00:00:00</div>
           </div>
 
-          <!-- Sabah (Morgengebet) & Cuma (Freitagsgebet = Mittag) -->
+          <!-- Cuma (Freitagsgebet = Mittag) -->
           <div class="mt-auto pt-10">
-            <div class="flex items-center gap-4 mb-5 opacity-60">
+            <div class="flex items-center gap-4 mb-6 opacity-60">
               <div class="h-px flex-1 bg-white/40"></div>
               <span class="text-[12px] font-bold uppercase tracking-[.25em]">Außerdem / Ayrıca</span>
               <div class="h-px flex-1 bg-white/40"></div>
             </div>
-            <div class="flex flex-col divide-y divide-white/15">
-              <div class="flex items-center justify-between gap-4 py-5">
-                <div class="flex items-center gap-4 min-w-0">
-                  <span class="w-1.5 h-11 rounded-full bg-white/80 shrink-0"></span>
-                  <div class="leading-tight min-w-0">
-                    <div class="text-[26px] font-bold leading-none">Morgengebet</div>
-                    <div class="text-[15px] font-semibold uppercase tracking-[.16em] opacity-70 mt-1">Sabah</div>
-                  </div>
+            <div class="flex items-center justify-between gap-4 rounded-2xl bg-white/10 px-7 py-7"
+                 style="box-shadow:inset 0 0 0 2px rgba(255,255,255,0.20);">
+              <div class="flex items-center gap-5 min-w-0">
+                <span class="w-2 h-14 rounded-full bg-white shrink-0"></span>
+                <div class="leading-tight min-w-0">
+                  <div class="text-[34px] font-extrabold leading-none">Freitagsgebet</div>
+                  <div class="text-[18px] font-semibold uppercase tracking-[.18em] opacity-75 mt-1.5">Cuma</div>
                 </div>
-                <span id="sabah-time-highlight" class="tnum text-[40px] font-extrabold">--:--</span>
               </div>
-              <div class="flex items-center justify-between gap-4 py-5">
-                <div class="flex items-center gap-4 min-w-0">
-                  <span class="w-1.5 h-11 rounded-full bg-white/80 shrink-0"></span>
-                  <div class="leading-tight min-w-0">
-                    <div class="text-[26px] font-bold leading-none">Freitagsgebet</div>
-                    <div class="text-[15px] font-semibold uppercase tracking-[.16em] opacity-70 mt-1">Cuma</div>
-                  </div>
-                </div>
-                <span id="cuma-time" class="tnum text-[40px] font-extrabold">--:--</span>
-              </div>
+              <span id="cuma-time" class="tnum text-[54px] font-extrabold">--:--</span>
             </div>
           </div>
         </div>
@@ -163,16 +135,33 @@
 
     </div>
 
-    <!-- RECHTE SEITE: Slideshow über volle Höhe (Hoch-/1:1-/4:3-Formate) -->
-    <section class="card relative flex flex-col overflow-hidden bg-white">
-      <div id="slideshow" class="absolute inset-0 bottom-14"></div>
-      <div class="absolute inset-x-0 bottom-0 h-14 flex justify-center items-center z-20 bg-gray-50 border-t border-gray-100">
-        <div id="dots" class="flex gap-4"></div>
+    <!-- RECHTE SEITE: Datum oben, Slideshow darunter (bündig mit linken Kacheln) -->
+    <section class="grid gap-8 min-h-0" style="grid-template-rows: 120px minmax(0,1fr);">
+
+      <!-- Datum: Gregorianisch & Hicri -->
+      <div class="card flex flex-col justify-center px-10 gap-3">
+        <div class="flex items-baseline justify-between gap-4">
+          <span class="text-[13px] font-bold text-gray-400 uppercase tracking-[.2em]">Gregorianisch</span>
+          <span id="g-date" class="text-[26px] font-extrabold text-black text-right">–</span>
+        </div>
+        <div class="h-px bg-gray-100"></div>
+        <div class="flex items-baseline justify-between gap-4">
+          <span class="text-[13px] font-bold text-accent uppercase tracking-[.2em]">Hicri</span>
+          <span id="h-date" class="text-[26px] font-extrabold text-black text-right">–</span>
+        </div>
+      </div>
+
+      <!-- Slideshow -->
+      <div class="card relative overflow-hidden bg-white">
+        <div id="slideshow" class="absolute inset-0"></div>
+        <div class="absolute inset-x-0 bottom-5 flex justify-center z-20">
+          <div id="dots" class="flex gap-3 rounded-full bg-black/10 px-4 py-2"></div>
+        </div>
       </div>
     </section>
   </div>
 </div>
 
-<script src="script.js?v=14"></script>
+<script src="script.js?v=16"></script>
 </body>
 </html>
