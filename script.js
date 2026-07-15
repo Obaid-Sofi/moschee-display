@@ -114,10 +114,10 @@ function renderList() {
         }
 
         return `
-            <div class="grid items-center flex-1 rounded-2xl px-6 transition ${rowClass}"
+            <div class="grid items-center flex-1 rounded-2xl px-4 transition ${rowClass}"
                  style="${rowStyle}">
               <span class="min-w-0 truncate text-[33px] font-semibold leading-tight ${nameClass}">${p.nameDe}</span>
-              <span class="tnum text-[60px] font-extrabold leading-none text-center px-3 ${timeClass}">${p.time}</span>
+              <span class="tnum text-[60px] font-extrabold leading-none text-center px-2 ${timeClass}">${p.time}</span>
               <span class="min-w-0 truncate text-right text-[33px] font-semibold leading-tight ${nameClass}">${p.nameTr}</span>
             </div>`;
     }).join('');
